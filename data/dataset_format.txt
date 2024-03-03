@@ -1,0 +1,3 @@
+Positron beam towards +z, beryllium block starts in z = 0m, ends in z = 0.03m
+Dataset format:
+x_scattering y_scattering z_scattering px_mu1 py_mu1 pz_mu1 px_mu2 py_mu2 pz_mu2 px_positron py_positron pz_positron 
