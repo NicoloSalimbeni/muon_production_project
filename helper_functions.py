@@ -14,7 +14,7 @@ def get_velocity(p,m):
     vy = p["y"]*1e9*e/(c*m)
     vz = p["z"]*1e9*e/(c*m)
     v=pd.DataFrame({"x":vx,"y":vy,"z":vz})
-    print("ciao")
+
     return v
 
 def propagate_particles(r_old, p, z_new, m):
@@ -42,20 +42,7 @@ def get_edges(r,pixel_length):
 
     return [edges_x, edges_y]
 
-def create_hits_map_positrions(r,pixel_length):
-
-    fig, ax = plt.subplots(1,1)
-    hist = ax.hist2d(r["x"],r["y"],bins=get_edges(r,pixel_length), cmap = "viridis")
-    cbar = fig.colorbar(hist[3], ax=ax, cmap="viridis")
-    pixel_length_label = round(pixel_length*1e6)
-    cbar.set_label('Count in {}x{} μm pixels'.format(pixel_length_label,pixel_length_label))
-    ax.set_xlabel("position x [m]")
-    ax.set_ylabel("position y [m]")
-    ax.set_title("hits at z = {} m".format(r["z"][0]))
-
-    return ax
-
-def place_detector_on_hitsmap(r, tolerance, ax):
+def place_detector_on_hitsmap(r, tolerance, ax, verbose = True):
     # find max and min 
     x_min, x_max = r["x"].min()*tolerance, r["x"].max()*tolerance
     y_min, y_max = r["y"].min()*tolerance, r["y"].max()*tolerance
@@ -63,13 +50,14 @@ def place_detector_on_hitsmap(r, tolerance, ax):
     square = Rectangle((x_min, y_min), x_max - x_min, y_max - y_min, linewidth=1.5, edgecolor='red', facecolor='none',label="detector")
 
     _ = ax.add_patch(square)
-    ax.legend()
+    ax.legend(loc='upper right')
 
     #brief summary
     length_detector_x = round((x_max-x_min)*tolerance,4)
     length_detector_y = round((y_max-y_min)*tolerance,4)
-    print("for detector at z={} m we use".format(r["z"][0]),
-            "a detector of length {} m along x and {} m along y".format(length_detector_x, length_detector_y))
+    if verbose:
+        print("for detector at z={} m we choose a length".format(r["z"][0]),
+              "of {} m along x and {} m along y".format(length_detector_x, length_detector_y))
     return
 
 
