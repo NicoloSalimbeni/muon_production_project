@@ -1,5 +1,8 @@
 .ipynb_checkpoints
 data/dataset.txt
 data/old_dataset.txt
+__pycache__
+Untitled.ipynb
+.jupyter_ystore.db
 
 prove.ipynb
